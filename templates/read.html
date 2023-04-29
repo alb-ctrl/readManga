@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+    <title>Manga Reader - {{ manga }} - {{ chapter }}</title>
+</head>
+<body>
+    <h1>{{ manga }} - {{ chapter }}</h1>
+    {% for page in pages %}
+    <img src="{{ url_for('get_page', manga=manga, chapter=chapter, page=page) }}" alt="{{ page }}">
+    {% endfor %}
+</body>
+</html>
+

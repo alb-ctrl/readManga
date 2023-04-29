@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+    <title>Manga Reader - {{ manga }}</title>
+</head>
+<body>
+    <h1>{{ manga }}</h1>
+    <h2>Chapters:</h2>
+    <ul>
+        {% for chapter in chapters %}
+        <li><a href="{{ chapter }}">{{ chapter }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
