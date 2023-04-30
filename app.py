@@ -4,7 +4,7 @@ import os
 app = Flask(__name__)
 app.static_folder = 'static'
 
-manga_folder = './static/manga'
+manga_folder = 'static/manga'
 
 @app.route('/')
 def index():
@@ -17,7 +17,14 @@ def list_chapters(manga):
     if not os.path.exists(manga_path):
         abort(404)
     chapters = sorted(os.listdir(manga_path))
-    return render_template('chapters.html', manga=manga, chapters=chapters)
+    chapters_with_thumbnails = []
+    for chapter in chapters:
+        chapter_path = os.path.join(manga_path, chapter)
+        if os.path.isdir(chapter_path):
+            pages = sorted(os.listdir(chapter_path))
+            thumbnail_path = os.path.join(chapter_path, pages[0])
+            chapters_with_thumbnails.append((chapter, thumbnail_path))
+    return render_template('chapters.html', manga=manga, chapters=chapters_with_thumbnails)
 
 @app.route('/<manga>/<chapter>/')
 def read(manga, chapter):

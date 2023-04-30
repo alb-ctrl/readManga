@@ -6,14 +6,18 @@
 
 </head>
 <body>
-    <h1>{{ manga }}</h1>
-    <h2>Chapters:</h2>
-    <a href="{{ url_for('index') }}" class="back-button">Back to main page</a>
-    <ul>
-        {% for chapter in chapters %}
-        <li><a href="{{ chapter }}">{{ chapter }}</a></li>
-        {% endfor %}
-    </ul>
+<a href="{{ url_for('index') }}" class="back-button">Back to main page</a>
+	
+<div class="container">
+		<h1>{{ manga }}</h1>
+		{% for chapter, thumbnail_path in chapters %}
+			<div class="chapter">
+				<a href="{{ url_for('read', manga=manga, chapter=chapter) }}"><h2>{{ chapter }}</h2></a>
+				
+				<img class="thumbnail" src="{{ url_for('static', filename=thumbnail_path[7:]) }}" alt="{{ chapter }}">
+				</div>
+		{% endfor %}
+</div>
 </body>
 </html>
 

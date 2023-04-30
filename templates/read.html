@@ -3,15 +3,23 @@
 <head>
     <title>Read Manga</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".page img").click(function() {
+                window.location.href = "{{ url_for('read', manga=manga, chapter=chapter, page=next_page) }}";
+            });
+        });
+    </script>
 </head>
 <body>
+        <a href="{{ url_for('list_chapters', manga=manga) }}" class="back-button">Back to Chapters</a>
     <div class="container">
         <h1>{{ manga }}</h1>
         <h2>Chapter {{ chapter }}</h2>
-	<a href="{{ url_for('list_chapters', manga=manga) }}" class="back-button">Back to Chapters</a>
         <div class="page">
-            <a href="{{ url_for('read', manga=manga, chapter=chapter, page=prev_page) }}" class="previous">Previous</a>
             <img src="{{ url_for('static', filename='manga/'+manga+'/'+chapter+'/'+page) }}" alt="{{ page }}" />
+	    <a href="{{ url_for('read', manga=manga, chapter=chapter, page=prev_page) }}" class="previous">Previous</a>
             <a href="{{ url_for('read', manga=manga, chapter=chapter, page=next_page) }}" class="next">Next</a>
         </div>
     </div>
