@@ -31,18 +31,16 @@ def read(manga, chapter):
     chapter_path = os.path.join(manga_folder, manga, chapter)
     if not os.path.exists(chapter_path):
         abort(404)
-    pages = sorted(os.listdir(chapter_path))
-     # get the current page from the query parameters
-    page = request.args.get('page', pages[0])
-
-    # find the index of the current page in the list of pages
-    current_page_index = pages.index(page)
+    pages = sorted(os.listdir(chapter_path), key=lambda x: int(x.split('.')[0]))
+    current_page = request.args.get('page', default=pages[0], type=str)
 
     # set the previous and next pages
-    prev_page = pages[current_page_index - 1] if current_page_index > 0 else None
-    next_page = pages[current_page_index + 1] if current_page_index < len(pages) - 1 else None
+    sorted_pages = sorted(pages, key=lambda x: int(x.split('.')[0]))
+    current_page_index = sorted_pages.index(current_page)
+    prev_page = sorted_pages[current_page_index - 1] if current_page_index > 0 else None
+    next_page = sorted_pages[current_page_index + 1] if current_page_index < len(sorted_pages) - 1 else None
 
-    return render_template('read.html', manga=manga, chapter=chapter, pages=pages,page=page, prev_page=prev_page, next_page=next_page)
+    return render_template('read.html', manga=manga, chapter=chapter, pages=pages, page=current_page, prev_page=prev_page, next_page=next_page)
 
 @app.route('/<manga>/<chapter>/<page>')
 def get_page(manga, chapter, page):
